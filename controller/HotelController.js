@@ -4,75 +4,68 @@
 module.exports = function (app) {
     return {
         add:function(req, res){
-            var pool = app.get('pool');
-            pool.getConnection(function(err, connection){
-                if(err){
-                    connection.release();
-                    res.json({"code": "100", "status": "Error al conectar con la base de datos"});
-                }
-                connection.query("INSERT INTO Hotel VALUES(NULL, '" +
-                    req.body.nombre + "', '" +
-                    req.body.direccion + "', '" +
-                    req.body.clasificacion + "'," +
-                    req.body.id_departamento + ");"
-                    , function (err, row) {
-                        if (err)
-                            throw err;
-                        else
-                            res.json({"mensaje": "El Hotel ha sido agregado correctamente."});
-                        connection.release();
-                });
+            var Hotel = app.get('hotel');
+            Hotel.create({
+                nombre: req.body.nombre,
+                direccion: req.body.direccion,
+                clasificacion: req.body.clasificacion,
+                id_departamento: 1
+            }).then(function (hotel) {
+                res.json(hotel)
             });
         },
         delete:function (req, res) {
-            var pool = app.get('pool');
-            pool.getConnection(function(err, connection){
-                if(err){
-                    connection.release();
-                    res.json({"code": "100", "status": "Error al conectar con la base de datos"});
+            var Hotel = app.get('hotel');
+            Hotel.destroy({
+                where: {
+                    id_hotel: req.body.id_hotel
                 }
-                connection.query("DELETE FROM HOTEL WHERE id_hotel = " + req.query.id_hotel, function (err, row) {
-                    if (err)
-                       throw err;
-                    else
-                        res.json({"mensaje": "El hotel ha sido eliminar correctamente."});
-                    connection.release();
-                });
+            }).then(function (hotel) {
+                res.json(hotel);
             });
         },
         list:function (req, res) {
-            var pool = app.get('pool');
-            pool.getConnection(function (err, connection){
-                if(err){
-                    connection.release();
-                    res.json({"code": "100", "status": "Error al conectar con la base de datos"});
-                }
-                connection.query("SELECT * FROM Hotel", function (err, row) {
-                    if (err)
-                        throw err;
-                    else
-                        res.json(row);
-                    connection.release();
-                })
+            var Servicio = app.get('servicio');
+            var Hotel = app.get('hotel');
+            Hotel.findAll({ include: [Servicio]}).then(function (hoteles) {
+                res.json(hoteles);
             });
         },
         edit:function (req, res) {
-            var pool = app.get('pool');
-            pool.getConnection(function (err, connection) {
-                if(err){
-                    connection.release();
-                    res.json({"code": "100", "status": "Error al conectar con la base de datos"});
+            var Hotel = app.get('hotel');
+            Hotel.find(req.body.id_hotel).then(function (hotel) {
+                if(hotel){
+                    hotel.updateAttributes({
+                        nombre : req.body.nombre,
+                        direccion : req.body.direccion,
+                        clasificacion : req.body.clasificacion,
+                        id_departamento : req.body.id_departamento
+                    }).then(function (hotel) {
+                        res.send(hotel);
+                    });
                 }
-                connection.query("UPDATE Hotel SET nombre = '" +
-                    req.body.nombre + "', '" +
-                    "direccion = '" + req.body.direccion + "', '" +
-                    "clasificacion = '" + req.body.clasificacion + "'", function (err, row) {
-                    if (err)
-                        throw err;
-                    else
-                        res.json({"mensaje": "El hotel ha sido editado correctamente."});
-                    connection.release();
-                })
+            });
+        },
+        servicios:function (req, res) {
+            var Hotel = app.get('hotel');
+            var Servicio = app.get('servicio');
+            Hotel.find({ where: { id_hotel: req.params.id }, include: [Servicio] }).then(function (hotel) {
+                if(hotel) {
+                    res.send(hotel.servicios)
+                } else {
+                    res.status(404).send({ menssage: 'Hotel no encontrado' });
+                }
+            });
+        },
+        porid:function (req, res) {
+            var Hotel = app.get('hotel');
+            var Servicio = app.get('servicio');
+            Hotel.find({ where: { id_hotel: req.params.id }, include: [Servicio] }).then(function (hotel) {
+               if(hotel) {
+                   res.send(hotel);
+               } else {
+                   res.status(404).send({ menssage: 'Hotel no encontrado' });
+               }
             });
         }
     }
