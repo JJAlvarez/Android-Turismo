@@ -3,37 +3,24 @@
  */
 module.exports=function(app){
     return {
-        registro:function(peticion,respuesta){
-            var pool=app.get('pool');
-            pool.getConnection(function(err,connection){
-                if(err){
-                    connection.release();
-                    respuesta.json({"code" : 100, "status" : "Error al conectar a la base de datos"});
-                }
-                connection.query("CALL Registrar('"+peticion.body.nombre+"',"+peticion.body.telefono +",'"+peticion.body.correo+"','"+peticion.body.nick+"','"+peticion.body.contrasena+"');",function(err){
-                    if(err)
-                        throw err;
-                    else
-                        respuesta.send({"mensaje":"Registro insertado correctamente","status":"200"});
-                    connection.release();
-                });
+        registro:function(req, res) {
+            var Sequelize = app.get('sequelize');
+            Sequelize.query("CALL Registrar('"+req.body.nombre+"',"+req.body.telefono +",'"+req.body.correo+"','"+req.body.nick+"','"+req.body.contrasena+"', '" + req.body.direccion + "');").then(function (response) {
+                res.status(200).send({ message: "Usuario resgistrado correctamente" });
+            }).error(function (err) {
+                res.json(err);
             });
-
         },
-        login:function(peticion,respuesta){
-            var pool=app.get('pool');
-            pool.getConnection(function(err,connection){
-                if(err){
-                    connection.release();
-                    res.json({"code" : 100, "status" : "Error al conectar a la base de datos"});
+        login:function(req, res){
+            var Sequelize = app.get('sequelize');
+            Sequelize.query("CALL Login('"+req.body.nick+"', '"+req.body.contrasena+"');").then(function (response) {
+                if(response.length > 0) {
+                    res.status(200).send(response);
+                } else {
+                    res.status(404).send({ message: "Credenciales invalidas. Verifique por favor." })
                 }
-                connection.query("CALL Login('"+peticion.body.nick+"', '"+peticion.body.contrasena+"');", function(err, row){
-                    if(err)
-                        throw err;
-                    else
-                        respuesta.json(row);
-                    connection.release();
-                });
+            }).error(function (err) {
+                res.json(err);
             });
         }
     }
