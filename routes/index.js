@@ -7,6 +7,7 @@ module.exports=(function(app){
     var hotel=require('../controller/HotelController.js')(app);
     var restaurante = require('../controller/RestauranteController')(app);
     var departamento = require('../controller/DepartamentoController')(app);
+    var sucursalrestaurante = require('../controller/SucursalRestauranteController')(app);
 
     ruta.get('/',function(peticion, respuesta){
         respuesta.send("Servicio iniciado");
@@ -47,5 +48,14 @@ module.exports=(function(app){
     ruta.delete('/departamento', departamento.delete);
     ruta.get('departamento/:id', departamento.porid);
 
+    /*
+    Rutas para las sucursales de los restaurantes
+     */
+    ruta.get('/sucursalrestaurante', sucursalrestaurante.list);
+    ruta.post('/sucursalrestaurante', sucursalrestaurante.add);
+    ruta.put('/sucursalrestaurante', sucursalrestaurante.edit);
+    ruta.delete('/sucursalrestaurante', sucursalrestaurante.delete);
+    ruta.get('/sucursalrestaurante/:id', sucursalrestaurante.porid);
+    
     return ruta;
 });

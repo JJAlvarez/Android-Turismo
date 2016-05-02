@@ -96,7 +96,7 @@
     Restaurante.hasMany(SucursalRestaurante, { foreignKey: 'id_sucursal', constraints: false });
     SucursalRestaurante.belongsTo(Restaurante, { foreignKey: 'id_restaurante', constraints: false});
 
-    sequelize.sync({ force: true });
+    sequelize.sync({ force: false });
     var puerto=3000;
     var conf=require('./config');
     var app=express();
@@ -109,7 +109,7 @@
     app.set('restaurante', Restaurante);
     app.set('sucursal', SucursalRestaurante);
     app.use(bodyParser.urlencoded({
-        extended:false
+        extended: true
     }));
     app.use(bodyParser.json());
     app.use(morgan('dev'));
