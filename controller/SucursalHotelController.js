@@ -44,6 +44,16 @@ model.exports = function (app) {
                     res.status(404).send({ message: "Sucursal no encontrada" })
                 }
             });
+        },
+        porid:function (req, res) {
+            var Sucursal = app.get('sucursalhotel');
+            Sucursal.find(req.params.id).then(function (sucursal) {
+                if(sucursal) {
+                    res.json(sucursal);
+                } else {
+                    res.status(404).send({ message: "Sucursal no encontrada" })
+                }
+            });
         }
     }
 }

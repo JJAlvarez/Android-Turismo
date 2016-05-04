@@ -37,6 +37,17 @@
         descripcion: { type: Sequelize.STRING, allowNull: false}
     });
 
+    var LugarTuristico = sequelize.define('lugarturistico', {
+        id_lugarturistico: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+        nombre: { type: Sequelize.STRING, allowNull: false },
+        descripcion: { type: Sequelize.STRING, allowNull: false },
+        direccion: { type: Sequelize.STRING, allowNull: false },
+        id_departamento: { type: Sequelize.INTEGER, references: {
+            model: Departamento,
+            key: 'id_departamento'
+        }}
+    });
+
     var Hotel = sequelize.define('hotel', {
         id_hotel: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
         direccion: { type: Sequelize.STRING, allowNull: false},
@@ -91,6 +102,8 @@
     Restaurante.belongsToMany(TipoComida, { through: 'ComidaRestaurante' });
     Departamento.hasMany(Restaurante, { foreignKey: 'id_restaurante', constraints: false });
     Restaurante.belongsTo(Departamento, { foreignKey: 'id_restaurante', constraints: false });
+    Departamento.hasMany(LugarTuristico, { foreignKey: 'id_lugarturistico', constraints: false });
+    LugarTuristico.belongsTo(Departamento, { foreignKey: 'id_lugarturistico', constraints: false });
     Departamento.hasMany(Hotel, { foreignKey: 'id_hotel', constraints: false});
     Hotel.belongsTo(Departamento, { foreignKey: 'id_hotel', constraints: false});
     Restaurante.hasMany(SucursalRestaurante, { foreignKey: 'id_sucursal', constraints: false });
@@ -103,6 +116,7 @@
     app.set('sequelize', sequelize);
     app.set('usuario', Usuario);
     app.set('departamento', Departamento);
+    app.set('lugarturistico', LugarTuristico);
     app.set('hotel', Hotel);
     app.set('servicio', Servicio);
     app.set('tipocomida', TipoComida);
@@ -117,6 +131,7 @@
     app.use(cors());
 
     app.listen(puerto,function(){
-        console.log("Servidor iniciado en el puerto: "+puerto);
+        console.log("Servidor iniciado en el puerto: " + puerto);
+        console.log("Debug del server: ");
     });
 })();
