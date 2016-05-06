@@ -28,7 +28,7 @@
         correo: { type: Sequelize.STRING, allowNull: false},
         nick: { type: Sequelize.STRING, allowNull: false},
         contrasena: { type: Sequelize.STRING, allowNull: false},
-        direccion: { type: Sequelize.STRING, allowNull: false},
+        direccion: { type: Sequelize.STRING, allowNull: false}
     });
 
     var Departamento = sequelize.define('departamento', {
@@ -109,7 +109,7 @@
     Restaurante.hasMany(SucursalRestaurante, { foreignKey: 'id_sucursal', constraints: false });
     SucursalRestaurante.belongsTo(Restaurante, { foreignKey: 'id_restaurante', constraints: false});
 
-    sequelize.sync({ force: false });
+    sequelize.sync({ force: true });
     var puerto=3000;
     var conf=require('./config');
     var app=express();
@@ -121,7 +121,8 @@
     app.set('servicio', Servicio);
     app.set('tipocomida', TipoComida);
     app.set('restaurante', Restaurante);
-    app.set('sucursal', SucursalRestaurante);
+    app.set('sucursalrestaurante', SucursalRestaurante);
+    app.set('sucursalhotel', SucursalHotel);
     app.use(bodyParser.urlencoded({
         extended: true
     }));

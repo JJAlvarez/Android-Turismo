@@ -1,7 +1,7 @@
 /**
  * Created by Javier on 02/05/2016.
  */
-model.exports = function (app) {
+module.exports = function (app) {
     return {
         add:function (req, res) {
             var Sucursal = app.get('sucursalhotel');
@@ -37,12 +37,12 @@ model.exports = function (app) {
         },
         delete:function (req, res) {
             var Sucursal = app.get('sucursalhotel');
-            Sucursal.find(req.params.id).then(function (sucursal) {
-                if(sucursal) {
-                    res.json(sucursal);
-                } else {
-                    res.status(404).send({ message: "Sucursal no encontrada" })
+            Sucursal.destroy({
+                where: {
+                    id_sucursal: req.body.id_sucursal
                 }
+            }).then(function (sucursal) {
+                res.json(sucursal);
             });
         },
         porid:function (req, res) {
