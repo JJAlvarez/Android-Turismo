@@ -7,8 +7,8 @@ module.exports = function (app) {
             var Sucursal = app.get('sucursalrestaurante');
             Sucursal.create({
                 direccion: req.body.direccion,
-                id_restaurante: req.body.id_restaurante,
-                id_departamento: req.body.id_departamento
+                restauranteIdRestaurante: req.body.id_restaurante,
+                departamentoIdDepartamento: req.body.id_departamento
             }).then(function (sucursal) {
                 res.json(sucursal);
             });
@@ -35,8 +35,8 @@ module.exports = function (app) {
                 if(sucursal){
                     sucursal.updateAttributes({
                         direccion: req.body.direccion,
-                        id_restaurante: req.body.id_restaurante,
-                        id_departamento: req.body.id_departamento
+                        restauranteIdRestaurante: req.body.id_restaurante,
+                        departamentoIdDepartamento: req.body.id_departamento
                     }).then(function (sucursal) {
                         res.json(sucursal);
                     });

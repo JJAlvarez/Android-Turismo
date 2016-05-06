@@ -9,7 +9,7 @@ module.exports = function (app) {
                 nombre: req.body.nombre,
                 descripcion: req.body.descripcion,
                 direccion: req.body.direccion,
-                id_departamento: req.body.id_departamento
+                departamentoIdDepartamento: req.body.id_departamento
             }).then(function (lugar) {
                 res.json(lugar);
             });
@@ -28,7 +28,7 @@ module.exports = function (app) {
                         nombre: req.body.nombre,
                         descripcion: req.body.descripcion,
                         direccion: req.body.direccion,
-                        id_departamento: req.body.id_departamento
+                        departamentoIdDepartamento: req.body.id_departamento
                     }).then(function (lugar) {
                         res.json(lugar);
                     })
