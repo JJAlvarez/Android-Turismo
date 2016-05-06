@@ -7,9 +7,7 @@ module.exports = function (app) {
             var Hotel = app.get('hotel');
             Hotel.create({
                 nombre: req.body.nombre,
-                direccion: req.body.direccion,
-                clasificacion: req.body.clasificacion,
-                id_departamento: 1
+                clasificacion: req.body.clasificacion
             }).then(function (hotel) {
                 res.json(hotel)
             });
@@ -37,11 +35,9 @@ module.exports = function (app) {
                 if(hotel){
                     hotel.updateAttributes({
                         nombre : req.body.nombre,
-                        direccion : req.body.direccion,
-                        clasificacion : req.body.clasificacion,
-                        id_departamento : req.body.id_departamento
+                        clasificacion : req.body.clasificacion
                     }).then(function (hotel) {
-                        res.send(hotel);
+                        res.json(hotel);
                     });
                 }
             });

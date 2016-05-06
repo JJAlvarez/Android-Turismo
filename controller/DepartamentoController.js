@@ -7,7 +7,7 @@ module.exports = function (app) {
             var Departamento = app.get('departamento');
             Departamento.create({
                 nombre: req.body.nombre,
-                descripcion: req.bodu.descripcion
+                descripcion: req.body.descripcion
             }).then(function (departamento) {
                 res.json(departamento);
             });
@@ -24,7 +24,7 @@ module.exports = function (app) {
             var Departamento = app.get('departamento');
             Departamento.destroy({
                 where: {
-                    id_departamento: req.params.id
+                    id_departamento: req.body.id_departamento
                 }
             }).then(function (departamento) {
                 res.json(departamento);

@@ -7,9 +7,7 @@ module.exports = function (app) {
             var Restaurante = app.get('restaurante');
             Restaurante.create({
                 nombre: req.body.nombre,
-                direccion: req.body.direccion,
-                clasificacion: req.body.clasificacion,
-                id_departamento: req.body.id_departamento
+                clasificacion: req.body.clasificacion
             }).then(function (restaurante) {
                 res.json(restaurante);
             });
