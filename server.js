@@ -29,57 +29,98 @@
         nick: { type: Sequelize.STRING, allowNull: false},
         contrasena: { type: Sequelize.STRING, allowNull: false},
         direccion: { type: Sequelize.STRING, allowNull: false}
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var Departamento = sequelize.define('departamento', {
         id_departamento: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-        nombre: { type: Sequelize.STRING, allowNull: false},
-        descripcion: { type: Sequelize.STRING, allowNull: false}
+        nombre: { type: Sequelize.STRING, allowNull: false },
+        descripcion: { type: Sequelize.STRING, allowNull: false },
+        urlImagen: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var LugarTuristico = sequelize.define('lugarturistico', {
         id_lugarturistico: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
         descripcion: { type: Sequelize.STRING, allowNull: false },
-        direccion: { type: Sequelize.STRING, allowNull: false }
+        direccion: { type: Sequelize.STRING, allowNull: false },
+        urlImagen: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var Hotel = sequelize.define('hotel', {
         id_hotel: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-        direccion: { type: Sequelize.STRING, allowNull: false},
-        clasificacion: { type: Sequelize.INTEGER, allowNull: false}
+        clasificacion: { type: Sequelize.INTEGER, allowNull: false},
+        urlImagen: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var Restaurante = sequelize.define('restaurante', {
         id_restaurante: { type: Sequelize.INTEGER, primaryKey: true ,autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
-        clasificacion: { type: Sequelize.INTEGER, allowNull: false }
+        clasificacion: { type: Sequelize.INTEGER, allowNull: false },
+        urlImagen: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var SucursalRestaurante = sequelize.define('sucursalrestaurante', {
         id_sucursal: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
         direccion: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var SucursalHotel = sequelize.define('sucursalhotel', {
         id_sucursal: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
         direccion: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var Servicio = sequelize.define('servicio', {
         id_servicio: { type: Sequelize.INTEGER, primaryKey: true ,autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
         descripcion: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     var TipoComida = sequelize.define('tipocomida', {
         id_tipocomida: { type: Sequelize.INTEGER, primaryKey: true ,autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
         descripcion: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
+    });
+
+    var Comentario = sequelize.define('comentario', {
+        id_comentario: { type: Sequelize.INTEGER, allowNull: false },
+        comentario: { type: Sequelize.STRING, allowNull: false }
+    }, {
+        freezeTableName: true,
+        timestamps: false
     });
 
     Hotel.belongsToMany(Servicio, { through: 'HotelServicio' });
     Restaurante.belongsToMany(TipoComida, { through: 'ComidaRestaurante' });
+    Comentario.belongsToMany(LugarTuristico, { through: 'ComentarioLugarTuristico' });
+    Comentario.belongsToMany(Hotel, { through: 'ComentarioHotel' });
+    Comentario.belongsToMany(Restaurante, { through: 'ComentarioRestaurante' });
     Departamento.hasMany(LugarTuristico, { constraints: true });
     LugarTuristico.belongsTo(Departamento, { constraints: true });
     Restaurante.hasMany(SucursalRestaurante, { constraints: true });
@@ -89,7 +130,7 @@
     Departamento.hasMany(SucursalHotel, { constraints: true });
     SucursalHotel.belongsTo(Departamento, { constraints: true });
     Departamento.hasMany(SucursalRestaurante, { constraints: true });
-    SucursalHotel.belongsTo(Departamento, { constraints: true });
+    SucursalRestaurante.belongsTo(Departamento, { constraints: true });
 
     sequelize.sync({ force: true });
     var puerto=3000;
@@ -105,6 +146,7 @@
     app.set('restaurante', Restaurante);
     app.set('sucursalrestaurante', SucursalRestaurante);
     app.set('sucursalhotel', SucursalHotel);
+    app.set('comentario', Comentario);
     app.use(bodyParser.urlencoded({
         extended: true
     }));
