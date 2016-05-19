@@ -7,16 +7,15 @@ module.exports = function (app) {
             var Departamento = app.get('departamento');
             Departamento.create({
                 nombre: req.body.nombre,
-                descripcion: req.body.descripcion
+                descripcion: req.body.descripcion,
+				urlImagen: req.body.urlImagen
             }).then(function (departamento) {
                 res.json(departamento);
             });
         },
         list: function (req, res) {
             var Departamento = app.get('departamento');
-            var Restaurante = app.get('restaurante');
-            var Hotel = app.get('hotel');
-            Departamento.findAll({ include: [Restaurante, Hotel]}).then(function (departamentos) {
+            Departamento.findAll().then(function (departamentos) {
                 res.json(departamentos);
             });
         },

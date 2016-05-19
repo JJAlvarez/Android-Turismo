@@ -3,8 +3,8 @@
  */
 var ruta=require('express').Router();
 module.exports=(function(app){
-    var usuario=require('../controller/UsuarioController.js')(app);
-    var hotel=require('../controller/HotelController.js')(app);
+    var usuario = require('../controller/UsuarioController.js')(app);
+    var hotel = require('../controller/HotelController.js')(app);
     var restaurante = require('../controller/RestauranteController')(app);
     var departamento = require('../controller/DepartamentoController')(app);
     var lugarturistico = require('../controller/LugarTuristicoController')(app);

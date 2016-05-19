@@ -57,7 +57,10 @@
 
     var Hotel = sequelize.define('hotel', {
         id_hotel: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+		nombre: { type: Sequelize.STRING, allowNull: false },
         clasificacion: { type: Sequelize.INTEGER, allowNull: false},
+		pbx: { type: Sequelize.INTEGER, allowNull: true },
+		urlLogo: { type: Sequelize.STRING, allowNull: false },
         urlImagen: { type: Sequelize.STRING, allowNull: false }
     }, {
         freezeTableName: true,
@@ -68,6 +71,8 @@
         id_restaurante: { type: Sequelize.INTEGER, primaryKey: true ,autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
         clasificacion: { type: Sequelize.INTEGER, allowNull: false },
+		pbx: { type: Sequelize.INTEGER, allowNull: true },
+		urlLogo: { type: Sequelize.STRING, allowNull: false },
         urlImagen: { type: Sequelize.STRING, allowNull: false }
     }, {
         freezeTableName: true,
@@ -132,7 +137,7 @@
     Departamento.hasMany(SucursalRestaurante, { constraints: true });
     SucursalRestaurante.belongsTo(Departamento, { constraints: true });
 
-    sequelize.sync({ force: true });
+    sequelize.sync({ force: false });
     var puerto=3000;
     var conf=require('./config');
     var app=express();
