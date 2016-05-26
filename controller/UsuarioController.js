@@ -4,23 +4,26 @@
 module.exports=function(app){
     return {
         registro:function(req, res) {
-            var Sequelize = app.get('sequelize');
-            Sequelize.query("CALL Registrar('"+req.body.nombre+"',"+req.body.telefono +",'"+req.body.correo+"','"+req.body.nick+"','"+req.body.contrasena+"', '" + req.body.direccion + "');").then(function (response) {
-                res.status(200).send({ message: "Usuario resgistrado correctamente" });
-            }).error(function (err) {
-                res.json(err);
-            });
+            var Usuario = app.get('usuario');
+            Usuario.create({
+				nombre: req.body.nombre,
+				telefono: req.body.telefono,
+				correo: req.body.correo,
+				nick: req.body.nick,
+				contrasena: req.body.password,
+				direccion: req.body.direccion
+			}).then(function(usuario) {
+				res.json(usuario);
+			});
         },
         login:function(req, res){
-            var Sequelize = app.get('sequelize');
-            Sequelize.query("CALL Login('"+req.body.nick+"', '"+req.body.contrasena+"');").then(function (response) {
-                if(response.length > 0) {
-                    res.status(200).send(response);
+			var Usuario = app.get('usuario');
+            Usuario.find({ where: { correo: req.body.correo, contrasena: req.body.password } }).then(function (usuario) {
+                if(usuario) {
+                    res.json(usuario);
                 } else {
-                    res.status(404).send({ message: "Credenciales invalidas. Verifique por favor." })
+                    res.status(404).send({ message: 'Credenciales Invalidas'});
                 }
-            }).error(function (err) {
-                res.json(err);
             });
         }
     }
