@@ -24,8 +24,9 @@ module.exports = function (app) {
         },
         list:function (req, res) {
             var Servicio = app.get('servicio');
+			var Sucursal = app.get('sucursalhotel');
             var Hotel = app.get('hotel');
-            Hotel.findAll({ include: [Servicio]}).then(function (hoteles) {
+            Hotel.findAll({ include : [ Sucursal ]}).then(function (hoteles) {
                 res.json(hoteles);
             });
         },
@@ -56,7 +57,8 @@ module.exports = function (app) {
         porid:function (req, res) {
             var Hotel = app.get('hotel');
             var Servicio = app.get('servicio');
-            Hotel.find({ where: { id_hotel: req.params.id }, include: [Servicio] }).then(function (hotel) {
+			var Sucursal = app.get('sucursalhotel');
+            Hotel.find({ where: { id_hotel: req.params.id }, include: [Servicio, Sucursal] }).then(function (hotel) {
                if(hotel) {
                    res.send(hotel);
                } else {

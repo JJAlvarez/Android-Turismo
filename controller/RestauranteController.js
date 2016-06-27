@@ -25,8 +25,8 @@ module.exports = function (app) {
         list:function (req, res) {
             var TipoComida = app.get('tipocomida');
             var Restaurante = app.get('restaurante');
-            var Sucursal = app.get('sucursal');
-            Restaurante.findAll({ include: [TipoComida]}).then(function (restaurantes) {
+            var Sucursal = app.get('sucursalrestaurante');
+            Restaurante.findAll({ include: [TipoComida, Sucursal]}).then(function (restaurantes) {
                 res.json(restaurantes);
             });
         },

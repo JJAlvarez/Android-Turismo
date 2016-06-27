@@ -37,7 +37,7 @@
     var Departamento = sequelize.define('departamento', {
         id_departamento: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
-        descripcion: { type: Sequelize.STRING, allowNull: false },
+        descripcion: { type: Sequelize.TEXT, allowNull: false },
         urlImagen: { type: Sequelize.STRING, allowNull: false }
     }, {
         freezeTableName: true,
@@ -47,9 +47,11 @@
     var LugarTuristico = sequelize.define('lugarturistico', {
         id_lugarturistico: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
-        descripcion: { type: Sequelize.STRING, allowNull: false },
+        descripcion: { type: Sequelize.TEXT, allowNull: false },
         direccion: { type: Sequelize.STRING, allowNull: false },
-        urlImagen: { type: Sequelize.STRING, allowNull: false }
+        urlImagen: { type: Sequelize.STRING, allowNull: false },
+		latitud: { type: Sequelize.FLOAT, allowNull: false },
+		longitud: { type: Sequelize.FLOAT, allowNull: false }
     }, {
         freezeTableName: true,
         timestamps: false
@@ -58,6 +60,7 @@
     var Hotel = sequelize.define('hotel', {
         id_hotel: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
 		nombre: { type: Sequelize.STRING, allowNull: false },
+		descripcion: { type: Sequelize.TEXT, allowNull: false },
         clasificacion: { type: Sequelize.INTEGER, allowNull: false},
 		pbx: { type: Sequelize.INTEGER, allowNull: true },
 		urlLogo: { type: Sequelize.STRING, allowNull: false },
@@ -71,6 +74,7 @@
         id_restaurante: { type: Sequelize.INTEGER, primaryKey: true ,autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
         clasificacion: { type: Sequelize.INTEGER, allowNull: false },
+		descripcion: { type: Sequelize.TEXT, allowNull: false },
 		pbx: { type: Sequelize.INTEGER, allowNull: true },
 		urlLogo: { type: Sequelize.STRING, allowNull: false },
         urlImagen: { type: Sequelize.STRING, allowNull: false }
@@ -81,7 +85,9 @@
 
     var SucursalRestaurante = sequelize.define('sucursalrestaurante', {
         id_sucursal: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-        direccion: { type: Sequelize.STRING, allowNull: false }
+        direccion: { type: Sequelize.STRING, allowNull: false },
+		latitud: { type: Sequelize.FLOAT, allowNull: false },
+		longitud: { type: Sequelize.FLOAT, allowNull: false }
     }, {
         freezeTableName: true,
         timestamps: false
@@ -89,7 +95,9 @@
 
     var SucursalHotel = sequelize.define('sucursalhotel', {
         id_sucursal: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-        direccion: { type: Sequelize.STRING, allowNull: false }
+        direccion: { type: Sequelize.STRING, allowNull: false },
+		latitud: { type: Sequelize.FLOAT, allowNull: false },
+		longitud: { type: Sequelize.FLOAT, allowNull: false }
     }, {
         freezeTableName: true,
         timestamps: false
@@ -98,7 +106,7 @@
     var Servicio = sequelize.define('servicio', {
         id_servicio: { type: Sequelize.INTEGER, primaryKey: true ,autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
-        descripcion: { type: Sequelize.STRING, allowNull: false }
+        descripcion: { type: Sequelize.TEXT, allowNull: false }
     }, {
         freezeTableName: true,
         timestamps: false
@@ -107,7 +115,7 @@
     var TipoComida = sequelize.define('tipocomida', {
         id_tipocomida: { type: Sequelize.INTEGER, primaryKey: true ,autoIncrement: true },
         nombre: { type: Sequelize.STRING, allowNull: false },
-        descripcion: { type: Sequelize.STRING, allowNull: false }
+        descripcion: { type: Sequelize.TEXT, allowNull: false }
     }, {
         freezeTableName: true,
         timestamps: false
@@ -123,6 +131,8 @@
 
     Hotel.belongsToMany(Servicio, { through: 'HotelServicio' });
     Restaurante.belongsToMany(TipoComida, { through: 'ComidaRestaurante' });
+	  Departamento.belongsToMany(Hotel, { through: 'DepartamentoHotel' });
+	  Departamento.belongsToMany(Restaurante, { through: 'DepartamentoRestaurante' });
     Comentario.belongsToMany(LugarTuristico, { through: 'ComentarioLugarTuristico' });
     Comentario.belongsToMany(Hotel, { through: 'ComentarioHotel' });
     Comentario.belongsToMany(Restaurante, { through: 'ComentarioRestaurante' });

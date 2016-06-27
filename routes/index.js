@@ -11,16 +11,17 @@ module.exports=(function(app){
     var sucursalrestaurante = require('../controller/SucursalRestauranteController')(app);
     var sucursalhotel = require('../controller/SucursalHotelController')(app);
 
-    ruta.get('/',function(peticion, respuesta){
-        respuesta.send("Servicio iniciado");
-    });
-
     /*
      Rutas para Usuario
      */
     ruta.post('/usuario/registro',usuario.registro);
     ruta.post('/usuario/login',usuario.login);
-    
+
+	ruta.get('/token',usuario.tokenGenerator);
+  ruta.get('/token_twitter',usuario.loginTwitter);
+
+	ruta.use(usuario.tokenMiddleware);
+
     /*
      Rutas para los Hoteles
      */
@@ -76,6 +77,6 @@ module.exports=(function(app){
     ruta.put('/sucursalhotel', sucursalhotel.edit);
     ruta.delete('/sucursalhotel', sucursalhotel.delete);
     ruta.get('/sucursalhotel/:id', sucursalhotel.porid);
-    
+
     return ruta;
 });

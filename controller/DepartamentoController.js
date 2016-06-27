@@ -14,8 +14,9 @@ module.exports = function (app) {
             });
         },
         list: function (req, res) {
+			var LugarTuristico = app.get('lugarturistico');
             var Departamento = app.get('departamento');
-            Departamento.findAll().then(function (departamentos) {
+            Departamento.findAll({ include: [LugarTuristico]}).then(function (departamentos) {
                 res.json(departamentos);
             });
         },
