@@ -10,6 +10,7 @@ module.exports=(function(app){
     var lugarturistico = require('../controller/LugarTuristicoController')(app);
     var sucursalrestaurante = require('../controller/SucursalRestauranteController')(app);
     var sucursalhotel = require('../controller/SucursalHotelController')(app);
+    var comentario = require('../controller/ComentariosController')(app);
 
     /*
      Rutas para Usuario
@@ -22,6 +23,15 @@ module.exports=(function(app){
 
 	ruta.use(usuario.tokenMiddleware);
 
+    /*
+      Rutas para los comentarios
+    */
+    ruta.get('/comentariohotel/:id', comentario.hotelComentarios);
+    ruta.get('/comentariorestaurante/:id', comentario.restaurateComentario);
+    ruta.get('/comentariolugar/:id', comentario.lugarComentario);
+    ruta.post('/comentariohotel', comentario.agregarHotelComentario);
+    ruta.post('/comentariorestaurante', comentario.agregarRestauranteComentario);
+    ruta.post('/comentariolugar', comentario.agregarLugarComentario);
     /*
      Rutas para los Hoteles
      */

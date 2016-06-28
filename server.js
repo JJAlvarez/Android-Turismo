@@ -122,7 +122,7 @@
     });
 
     var Comentario = sequelize.define('comentario', {
-        id_comentario: { type: Sequelize.INTEGER, allowNull: false },
+        id_comentario: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
         comentario: { type: Sequelize.STRING, allowNull: false }
     }, {
         freezeTableName: true,
@@ -133,9 +133,9 @@
     Restaurante.belongsToMany(TipoComida, { through: 'ComidaRestaurante' });
 	  Departamento.belongsToMany(Hotel, { through: 'DepartamentoHotel' });
 	  Departamento.belongsToMany(Restaurante, { through: 'DepartamentoRestaurante' });
-    Comentario.belongsToMany(LugarTuristico, { through: 'ComentarioLugarTuristico' });
-    Comentario.belongsToMany(Hotel, { through: 'ComentarioHotel' });
-    Comentario.belongsToMany(Restaurante, { through: 'ComentarioRestaurante' });
+    LugarTuristico.belongsToMany(Comentario, { through: 'ComentarioLugarTuristico' });
+    Hotel.belongsToMany(Comentario, { through: 'ComentarioHotel' });
+    Restaurante.belongsToMany(Comentario, { through: 'ComentarioRestaurante' });
     Departamento.hasMany(LugarTuristico, { constraints: true });
     LugarTuristico.belongsTo(Departamento, { constraints: true });
     Restaurante.hasMany(SucursalRestaurante, { constraints: true });
