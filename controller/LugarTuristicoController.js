@@ -52,6 +52,12 @@ module.exports = function (app) {
             LugarTuristico.find(req.params.id).then(function (lugar) {
                 res.json(lugar);
             });
+        },
+        ver:function (req, res) {
+            var LugarTuristico = app.get('lugarturistico');
+          LugarTuristico.findAll({attributes: ['nombre', 'id_lugarturistico', 'descripcion', 'urlImagen']}).then(function (lugares) {
+              res.json(lugares);
+          });
         }
     }
 }
