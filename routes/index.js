@@ -16,6 +16,7 @@ module.exports=(function(app){
      */
     ruta.post('/usuario/registro',usuario.registro);
     ruta.post('/usuario/login',usuario.login);
+    ruta.get('/lugarturistico/ver', lugarturistico.ver);
 
 	ruta.get('/token',usuario.tokenGenerator);
   ruta.get('/token_twitter',usuario.loginTwitter);
