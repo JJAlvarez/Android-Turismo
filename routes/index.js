@@ -16,7 +16,15 @@ module.exports=(function(app){
      */
     ruta.post('/usuario/registro',usuario.registro);
     ruta.post('/usuario/login',usuario.login);
-    ruta.get('/lugarturistico/ver', lugarturistico.ver);
+
+    //Rutas sin token
+    ruta.get('/hotel',hotel.list);
+    ruta.get('/restaurante', restaurante.list);
+    ruta.get('/departamento', departamento.list);
+    ruta.get('/lugarturistico', lugarturistico.list);
+    ruta.get('/sucursalrestaurante', sucursalrestaurante.list);
+    ruta.get('/sucursalhotel', sucursalhotel.list);
+
 
 	ruta.get('/token',usuario.tokenGenerator);
   ruta.get('/token_twitter',usuario.loginTwitter);
@@ -26,7 +34,6 @@ module.exports=(function(app){
     /*
      Rutas para los Hoteles
      */
-    ruta.get('/hotel',hotel.list);
     ruta.post('/hotel',hotel.add);
     ruta.put('/hotel',hotel.edit);
     ruta.delete('/hotel',hotel.delete);
@@ -36,7 +43,6 @@ module.exports=(function(app){
     /*
     Rutas para los Restaurantes
      */
-    ruta.get('/restaurante', restaurante.list);
     ruta.post('/restaurante', restaurante.add);
     ruta.delete('/restaurante', restaurante.delete);
     ruta.put('/restaurante', restaurante.edit);
@@ -46,7 +52,6 @@ module.exports=(function(app){
     /*
      Rutas para los departamentos
     */
-    ruta.get('/departamento', departamento.list);
     ruta.post('/departamento', departamento.add);
     ruta.put('/departamento', departamento.edit);
     ruta.delete('/departamento', departamento.delete);
@@ -55,7 +60,6 @@ module.exports=(function(app){
     /*
      Rutas para los departamentos
      */
-    ruta.get('/lugarturistico', lugarturistico.list);
     ruta.post('/lugarturistico', lugarturistico.add);
     ruta.put('/lugarturistico', lugarturistico.edit);
     ruta.delete('/lugarturistico', lugarturistico.delete);
@@ -64,7 +68,6 @@ module.exports=(function(app){
     /*
     Rutas para las sucursales de los restaurantes
      */
-    ruta.get('/sucursalrestaurante', sucursalrestaurante.list);
     ruta.post('/sucursalrestaurante', sucursalrestaurante.add);
     ruta.put('/sucursalrestaurante', sucursalrestaurante.edit);
     ruta.delete('/sucursalrestaurante', sucursalrestaurante.delete);
@@ -73,7 +76,6 @@ module.exports=(function(app){
     /*
      Rutas para las sucursales de los hoteles
      */
-    ruta.get('/sucursalhotel', sucursalhotel.list);
     ruta.post('/sucursalhotel', sucursalhotel.add);
     ruta.put('/sucursalhotel', sucursalhotel.edit);
     ruta.delete('/sucursalhotel', sucursalhotel.delete);
