@@ -123,7 +123,8 @@
 
     var Comentario = sequelize.define('comentario', {
         id_comentario: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-        comentario: { type: Sequelize.STRING, allowNull: false }
+        comentario: { type: Sequelize.STRING, allowNull: false },
+        usuario: { type: Sequelize.STRING, allowNull: false }
     }, {
         freezeTableName: true,
         timestamps: false

@@ -33,6 +33,7 @@ module.exports=(function(app){
     ruta.post('/comentariohotel', comentario.agregarHotelComentario);
     ruta.post('/comentariorestaurante', comentario.agregarRestauranteComentario);
     ruta.post('/comentariolugar', comentario.agregarLugarComentario);
+    ruta.delete('/comentario/:id', comentario.eliminarComentario);
     /*
      Rutas para los Hoteles
      */
@@ -51,7 +52,7 @@ module.exports=(function(app){
     ruta.delete('/restaurante', restaurante.delete);
     ruta.put('/restaurante', restaurante.edit);
     ruta.get('/restaurante/tipocomidas/:id', restaurante.tiposcomida);
-    ruta.get('restaurante/:id', restaurante.porid);
+    ruta.get('/restaurante/:id', restaurante.porid);
 
     /*
      Rutas para los departamentos
@@ -60,7 +61,10 @@ module.exports=(function(app){
     ruta.post('/departamento', departamento.add);
     ruta.put('/departamento', departamento.edit);
     ruta.delete('/departamento', departamento.delete);
-    ruta.get('departamento/:id', departamento.porid);
+    ruta.get('/departamento/:id', departamento.porid);
+    ruta.get('/departamento/hotel/:id', departamento.departmentHoteles);
+    ruta.get('/departamento/restaurante/:id', departamento.departmentRestaurantes);
+    ruta.get('/departamento/lugar/:id', departamento.departmentLugares);
 
     /*
      Rutas para los departamentos
@@ -69,7 +73,7 @@ module.exports=(function(app){
     ruta.post('/lugarturistico', lugarturistico.add);
     ruta.put('/lugarturistico', lugarturistico.edit);
     ruta.delete('/lugarturistico', lugarturistico.delete);
-    ruta.get('lugarturistico/:id', lugarturistico.porid);
+    ruta.get('/lugarturistico/:id', lugarturistico.porid);
 
     /*
     Rutas para las sucursales de los restaurantes
@@ -79,6 +83,7 @@ module.exports=(function(app){
     ruta.put('/sucursalrestaurante', sucursalrestaurante.edit);
     ruta.delete('/sucursalrestaurante', sucursalrestaurante.delete);
     ruta.get('/sucursalrestaurante/:id', sucursalrestaurante.porid);
+    ruta.get('/sucursalrestaurante/restaurante/:id', sucursalrestaurante.restauranteSucursales);
 
     /*
      Rutas para las sucursales de los hoteles

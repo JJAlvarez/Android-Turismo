@@ -47,13 +47,23 @@ module.exports = function (app) {
         },
         porid:function (req, res) {
             var Sucursal = app.get('sucursalrestaurante');
-            Sucursal.find(req.params.id).then(function (sucursal) {
+            Sucursal.findById(req.params.id).then(function (sucursal) {
                 if(sucursal) {
                     res.json(sucursal);
                 } else {
                     res.status(404).send({ message: "Sucursal no encontrada" })
                 }
             });
+        },
+        restauranteSucursales: function(req, res) {
+          var Sucursal = app.get('sucursalrestaurante');
+          Sucursal.findAll({
+            where: {
+              restauranteIdRestaurante: req.params.id
+            }
+          }).then(function(sucursales){
+            res.json(sucursales);
+          });
         }
     }
 }
