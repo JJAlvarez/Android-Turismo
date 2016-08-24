@@ -65,6 +65,26 @@ module.exports = function (app) {
                    res.status(404).send({ menssage: 'Hotel no encontrado' });
                }
             });
+        },
+        ver:function (req, res) {
+            var Servicio = app.get('servicio');
+            var Sucursal = app.get('sucursalhotel');
+            var Hotel = app.get('hotel');
+            Hotel.findAll({ include : [ Sucursal ]}).then(function (hoteles) {
+                res.json(hoteles);
+            });
+        },
+        poridfree:function (req, res) {
+            var Hotel = app.get('hotel');
+            var Servicio = app.get('servicio');
+            var Sucursal = app.get('sucursalhotel');
+            Hotel.findById({ where: { id_hotel: req.params.id }, include: [Servicio, Sucursal] }).then(function (hotel) {
+               if(hotel) {
+                   res.send(hotel);
+               } else {
+                   res.status(404).send({ menssage: 'Hotel no encontrado' });
+               }
+            });
         }
     }
 }

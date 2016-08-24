@@ -58,6 +58,13 @@ module.exports = function (app) {
           LugarTuristico.findAll({attributes: ['nombre', 'id_lugarturistico', 'descripcion', 'urlImagen']}).then(function (lugares) {
               res.json(lugares);
           });
+        },
+        poridfree:function (req, res) {
+            var LugarTuristico = app.get('lugarturistico');
+            var Departamento = app.get('departamento');
+            LugarTuristico.find({ where: { id_lugarturistico: req.params.id }, include: [Departamento] }).then(function (lugar) {
+                res.json(lugar);
+            });
         }
     }
 }

@@ -8,7 +8,7 @@
     var mysql=require('mysql');
     var cors = require('cors');
     var Sequelize = require('sequelize');
-    var sequelize = new Sequelize('db_turismo', 'root', '', {
+    var sequelize = new Sequelize('db_turismo', 'root', '123', {
         host: 'localhost',
         dialect: 'mysql',
         pool: {

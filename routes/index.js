@@ -18,6 +18,16 @@ module.exports=(function(app){
     ruta.post('/usuario/registro',usuario.registro);
     ruta.post('/usuario/login',usuario.login);
     ruta.get('/lugarturistico/ver', lugarturistico.ver);
+    ruta.get('/restaurante/ver', restaurante.ver);
+    ruta.get('/hotel/ver', hotel.ver);
+    ruta.get('/departamento/ver', departamento.listwithouttoken);
+    ruta.get('/departamento/free/:id', departamento.poridfree);
+    ruta.get('/hotel/free/:id', hotel.poridfree);
+    ruta.get('/restaurante/free/:id', restaurante.poridfree);
+    ruta.get('/lugarturistico/free/:id', lugarturistico.poridfree);
+    ruta.get('/departamento/hotel/free/:id', departamento.departmentHotelesfree);
+    ruta.get('/departamento/restaurante/free/:id', departamento.departmentRestaurantesfree);
+    ruta.get('/departamento/lugar/free/:id', departamento.departmentLugaresfree);
 
 	ruta.get('/token',usuario.tokenGenerator);
   ruta.get('/token_twitter',usuario.loginTwitter);

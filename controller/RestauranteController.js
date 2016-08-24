@@ -66,6 +66,25 @@ module.exports = function (app) {
                     res.status(404).send({ message: 'Restaurante no encontrado'});
                 }
             });
+        },
+        ver:function (req, res) {
+            var TipoComida = app.get('tipocomida');
+            var Restaurante = app.get('restaurante');
+            var Sucursal = app.get('sucursalrestaurante');
+            Restaurante.findAll({ include: [TipoComida, Sucursal]}).then(function (restaurantes) {
+                res.json(restaurantes);
+            });
+        },
+        poridfree:function (req, res) {
+            var Restaurante = app.get('restaurante');
+            var TipoComida = app.get('tipocomida');
+            Restaurante.findById({ where: { id_restaurante: req.params.id }, include: [TipoComida] }).then(function (restaurante) {
+                if(restaurante) {
+                    res.json(restaurante);
+                } else {
+                    res.status(404).send({ message: 'Restaurante no encontrado'});
+                }
+            });
         }
     }
 }
